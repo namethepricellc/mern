@@ -13,11 +13,9 @@ const getStrains = asyncHandler(async (req, res) => {
 const setStrain = asyncHandler(async (req, res) => {
   if(!req.body.text) {
     res.status(400)
-    throw new Error('Please add a strain')
-  })
-
-  res.status(200).json({msg: 'Set a strain'})
-}
+    throw new Error('Please Enter a Strain')
+  }
+})
 
 // @desc: Update a strain
 // @route: PUT /api/strains/:id

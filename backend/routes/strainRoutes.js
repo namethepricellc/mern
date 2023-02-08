@@ -7,7 +7,9 @@ const {
     deleteStrain
 } = require('../controllers/strainController')
 
-router.route('/').get(getStrains).post(setStrain)
-router.route('/:id').delete(deleteStrain).put(updateStrain)
+const { protect } = require('../middleware/authMiddleware')
+
+router.route('/').get(protect, getStrains).post(protect, setStrain)
+router.route('/:id').delete(protect, deleteStrain).put(protect, updateStrain)
 
 module.exports = router

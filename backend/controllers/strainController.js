@@ -1,12 +1,13 @@
 const asyncHandler = require('express-async-handler')
 
 const Strain = require('../models/strainModel')
+const User = require('../models/userModel')
 
 // @desc: Get all strains
 // @route: GET /api/strains
 // @access: Private
 const getStrains = asyncHandler(async (req, res) => {
-  const strains = await Strain.find()
+  const strains = await Strain.find({ user: req.user.id })
   res.status(200).json(strains)
 })
 
@@ -20,7 +21,8 @@ const setStrain = asyncHandler(async (req, res) => {
   }
 
   const strain = await Strain.create({
-    text: req.body.text
+    text: req.body.text,
+    user: req.user.id
   })
 
   res.status(200).json(strain)
@@ -37,6 +39,22 @@ const updateStrain = asyncHandler(async (req, res) => {
     throw new Error('Strain not found')
   }
 
+  const user = await User.findById(req.user.id)
+
+  // Check if user exists
+  if(!user) {
+    res.status(400)
+    throw new Error('User not found')
+  }
+
+  // Check if user is authorized to update strain
+  if(strain.user.toString() !== user._id.toString()) {
+    res.status(401)
+    throw new Error('Not authorized to update this strain')
+  }
+
+
+
   const updatedStrain = await Strain.findByIdAndUpdate(req.params.id, req.body, {new: true})
 
   res.status(200).json(updatedStrain)
@@ -51,6 +69,20 @@ const deleteStrain = asyncHandler(async (req, res) => {
   if(!strain) {
     res.status(400)
     throw new Error('Strain not found')
+  }
+
+  const user = await User.findById(req.user.id)
+
+  // Check if user exists
+  if(!user) {
+    res.status(400)
+    throw new Error('User not found')
+  }
+
+  // Check if user is authorized to update strain
+  if(strain.user.toString() !== user._id.toString()) {
+    res.status(401)
+    throw new Error('Not authorized to update this strain')
   }
 
   await strain.remove()

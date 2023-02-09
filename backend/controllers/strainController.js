@@ -39,16 +39,14 @@ const updateStrain = asyncHandler(async (req, res) => {
     throw new Error('Strain not found')
   }
 
-  const user = await User.findById(req.user.id)
-
   // Check if user exists
-  if(!user) {
+  if(!req.user) {
     res.status(400)
     throw new Error('User not found')
   }
 
   // Check if user is authorized to update strain
-  if(strain.user.toString() !== user._id.toString()) {
+  if(strain.user.toString() !== req.user._id.toString()) {
     res.status(401)
     throw new Error('Not authorized to update this strain')
   }
@@ -60,7 +58,7 @@ const updateStrain = asyncHandler(async (req, res) => {
   res.status(200).json(updatedStrain)
 })
 
-// @desc: Delete a strain
+//@desc: Delete a strain
 // @route: DELETE /api/strains/:id
 // @access: Private
 const deleteStrain = asyncHandler(async (req, res) => {
@@ -71,16 +69,14 @@ const deleteStrain = asyncHandler(async (req, res) => {
     throw new Error('Strain not found')
   }
 
-  const user = await User.findById(req.user.id)
-
   // Check if user exists
-  if(!user) {
+  if(!req.user) {
     res.status(400)
     throw new Error('User not found')
   }
 
   // Check if user is authorized to update strain
-  if(strain.user.toString() !== user._id.toString()) {
+  if(strain.user.toString() !== req.user._id.toString()) {
     res.status(401)
     throw new Error('Not authorized to update this strain')
   }

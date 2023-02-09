@@ -6,36 +6,46 @@ const initialState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
-  message: ''
+  message: '',
 }
 
 // Create a new strain
-export const createStrain = createAsyncThunk('strains/create', async (strainData, thunkAPI) => {
-  try {
-    const token = thunkAPI.getState().auth.user.token
-    return await strainService.createStrain(strainData, token)
-  } catch (error) {
-    const message =
-      (error.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString()
-    return thunkAPI.rejectWithValue(message)
+export const createStrain = createAsyncThunk(
+  'strains/create',
+  async (strainData, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      return await strainService.createStrain(strainData, token)
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
+    }
   }
-})
+)
 
 // Get User Strains
-export const getStrains = createAsyncThunk('strains/getUserStrains', async (_, thunkAPI) => {
-  try {
-    const token = thunkAPI.getState().auth.user.token
-    return await strainService.getStrains(token)
-  } catch (error) {
-    const message =
-      (error.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString()
-    return thunkAPI.rejectWithValue(message)
+export const getStrains = createAsyncThunk(
+  'strains/getUserStrains',
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      return await strainService.getStrains(token)
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
+    }
   }
-})
+)
 
 /* Delete a strain
 
@@ -73,12 +83,11 @@ export const deleteStrain = createAsyncThunk(
   }
 )
 
-
 export const strainSlice = createSlice({
   name: 'strain',
   initialState,
   reducers: {
-    reset: (state) => initialState
+    reset: (state) => initialState,
   },
   extraReducers: (builder) => {
     builder
@@ -114,14 +123,16 @@ export const strainSlice = createSlice({
       .addCase(deleteStrain.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
-        state.strains = state.strains.filter((strain) => strain._id !== action.payload.id)
+        state.strains = state.strains.filter(
+          (strain) => strain._id !== action.payload.id
+        )
       })
       .addCase(deleteStrain.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload
       })
-  }
+  },
 })
 
 export const { reset } = strainSlice.actions

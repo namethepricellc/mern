@@ -7,90 +7,96 @@ import { login, reset } from '../features/auth/authSlice'
 import Spinner from '../components/Spinner'
 
 function Login() {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-    })
-    
-    const { email, password } = formData
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  })
 
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
+  const { email, password } = formData
 
-    const { user, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
-    useEffect(() => {
-        if(isError) {
-            toast.error(message)
-        }
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  )
 
-        if(isSuccess || user) {
-            navigate('/')
-        }
-
-        dispatch(reset())
-    }, [user, isError, isSuccess, message, dispatch])
-
-    const onChange = (e) => {
-        setFormData((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value,
-        }))
+  useEffect(() => {
+    if (isError) {
+      toast.error(message)
     }
 
-    const onSubmit = (e) => {
-        e.preventDefault()
-
-        const userData = {
-            email,
-            password
-        }
-
-        dispatch(login(userData))
+    if (isSuccess || user) {
+      navigate('/')
     }
 
-    if (isLoading) {
-        return <Spinner />
+    dispatch(reset())
+  }, [user, isError, isSuccess, message, dispatch])
+
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  const onSubmit = (e) => {
+    e.preventDefault()
+
+    const userData = {
+      email,
+      password,
     }
 
-    return <>
-        <section className='heading'>
-            <h1>
-                <FaSignInAlt /> Log In To Your Account
-            </h1>
-            <p>Login</p>
-        </section>
+    dispatch(login(userData))
+  }
 
-        <section className='form'>
-            <form onSubmit={onSubmit}>
-            <div className='form-group'>
-                <input
-                    type='text'
-                    className='form-control'
-                    id='email'
-                    name='email'
-                    value={email}
-                    placeholder='Enter Your Email'
-                    onChange={onChange}
-                />
-            </div>
-            <div className='form-group'>
-                <input
-                    type='password'
-                    className='form-control'
-                    id='password'
-                    name='password'
-                    value={password}
-                    placeholder='Enter Your Password'
-                    onChange={onChange}
-                />
-            </div>
-            <div className="form-group">
-                <button type="submit" className="btn btn-block">Submit</button>
-            </div>
+  if (isLoading) {
+    return <Spinner />
+  }
+
+  return (
+    <>
+      <section className='heading'>
+        <h1>
+          <FaSignInAlt /> Log In To Your Account
+        </h1>
+        <p>Login</p>
+      </section>
+
+      <section className='form'>
+        <form onSubmit={onSubmit}>
+          <div className='form-group'>
+            <input
+              type='text'
+              className='form-control'
+              id='email'
+              name='email'
+              value={email}
+              placeholder='Enter Your Email'
+              onChange={onChange}
+            />
+          </div>
+          <div className='form-group'>
+            <input
+              type='password'
+              className='form-control'
+              id='password'
+              name='password'
+              value={password}
+              placeholder='Enter Your Password'
+              onChange={onChange}
+            />
+          </div>
+          <div className='form-group'>
+            <button type='submit' className='btn btn-block'>
+              Submit
+            </button>
+          </div>
         </form>
-    </section>
-</>
+      </section>
+    </>
+  )
 }
 
 export default Login

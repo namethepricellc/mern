@@ -10,7 +10,7 @@ const register = async (userData) => {
     localStorage.setItem('user', JSON.stringify(response.data))
   }
 
-    return response.data
+  return response.data
 }
 
 // Login a new user
@@ -21,7 +21,7 @@ const login = async (userData) => {
     localStorage.setItem('user', JSON.stringify(response.data))
   }
 
-    return response.data
+  return response.data
 }
 
 // Logout a user
@@ -30,9 +30,9 @@ const logout = () => {
 }
 
 const authService = {
-    register,
-    logout,
-    login
+  register,
+  logout,
+  login,
 }
 
 export default authService

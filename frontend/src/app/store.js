@@ -5,6 +5,6 @@ import strainReducer from '../features/strains/strainSlice'
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    strains: strainReducer
+    strains: strainReducer,
   },
 })

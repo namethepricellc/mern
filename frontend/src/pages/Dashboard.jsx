@@ -9,12 +9,14 @@ import { getStrains, reset } from '../features/strains/strainSlice'
 function Dashboard() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
- 
+
   const { user } = useSelector((state) => state.auth)
-  const { strains, isLoading, isError, message } = useSelector((state) => state.strains)
+  const { strains, isLoading, isError, message } = useSelector(
+    (state) => state.strains
+  )
 
   useEffect(() => {
-    if(isError) {
+    if (isError) {
       console.log(message)
     }
 
@@ -34,27 +36,28 @@ function Dashboard() {
     return <Spinner />
   }
 
-  return <>
-    <section className="heading">
-      <h1>Welcome {user && user.name}</h1>
-      <p>Dashboard</p>    
-    </section>
+  return (
+    <>
+      <section className='heading'>
+        <h1>Welcome {user && user.name}</h1>
+        <p>Dashboard</p>
+      </section>
 
-    <StrainForm />
+      <StrainForm />
 
-    <section className="content">
-      {strains.length > 0 ? (
-        <div className="strains">
-          {strains.map((strain) => (
-            <StrainItem key={strain._id} strain={strain} />
-          ))}
-        </div>
-      ) : (
-        <h3>No Strains</h3>
-      )}
-    </section>
-
-  </>
+      <section className='content'>
+        {strains.length > 0 ? (
+          <div className='strains'>
+            {strains.map((strain) => (
+              <StrainItem key={strain._id} strain={strain} />
+            ))}
+          </div>
+        ) : (
+          <h3>No Strains</h3>
+        )}
+      </section>
+    </>
+  )
 }
 
 export default Dashboard

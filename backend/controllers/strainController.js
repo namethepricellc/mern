@@ -15,14 +15,14 @@ const getStrains = asyncHandler(async (req, res) => {
 // @route: POST /api/strains
 // @access: Private
 const setStrain = asyncHandler(async (req, res) => {
-  if(!req.body.text) {
+  if (!req.body.text) {
     res.status(400)
     throw new Error('Please Enter a Strain')
   }
 
   const strain = await Strain.create({
     text: req.body.text,
-    user: req.user.id
+    user: req.user.id,
   })
 
   res.status(200).json(strain)
@@ -34,26 +34,28 @@ const setStrain = asyncHandler(async (req, res) => {
 const updateStrain = asyncHandler(async (req, res) => {
   const strain = await Strain.findById(req.params.id)
 
-  if(!strain) {
+  if (!strain) {
     res.status(400)
     throw new Error('Strain not found')
   }
 
   // Check if user exists
-  if(!req.user) {
+  if (!req.user) {
     res.status(400)
     throw new Error('User not found')
   }
 
   // Check if user is authorized to update strain
-  if(strain.user.toString() !== req.user._id.toString()) {
+  if (strain.user.toString() !== req.user._id.toString()) {
     res.status(401)
     throw new Error('Not authorized to update this strain')
   }
 
-
-
-  const updatedStrain = await Strain.findByIdAndUpdate(req.params.id, req.body, {new: true})
+  const updatedStrain = await Strain.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true }
+  )
 
   res.status(200).json(updatedStrain)
 })
@@ -64,19 +66,19 @@ const updateStrain = asyncHandler(async (req, res) => {
 const deleteStrain = asyncHandler(async (req, res) => {
   const strain = await Strain.findById(req.params.id)
 
-  if(!strain) {
+  if (!strain) {
     res.status(400)
     throw new Error('Strain not found')
   }
 
   // Check if user exists
-  if(!req.user) {
+  if (!req.user) {
     res.status(400)
     throw new Error('User not found')
   }
 
   // Check if user is authorized to update strain
-  if(strain.user.toString() !== req.user._id.toString()) {
+  if (strain.user.toString() !== req.user._id.toString()) {
     res.status(401)
     throw new Error('Not authorized to update this strain')
   }
@@ -90,5 +92,5 @@ module.exports = {
   getStrains,
   setStrain,
   updateStrain,
-  deleteStrain
+  deleteStrain,
 }

@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { deleteStrain } from '../features/strains/strainSlice'
 
-function StrainItem({strain}) {
+function StrainItem({ strain }) {
   const dispatch = useDispatch()
 
   return (

@@ -1,10 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const {
-    getStrains,
-    setStrain,
-    updateStrain,
-    deleteStrain
+  getStrains,
+  setStrain,
+  updateStrain,
+  deleteStrain,
 } = require('../controllers/strainController')
 
 const { protect } = require('../middleware/authMiddleware')

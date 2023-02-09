@@ -1,31 +1,48 @@
 import { FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { logout, reset } from '../features/auth/authSlice'
 
 function Header() {
-  return (
-    <header className='header'>
-        <div className='logo'>
-            <Link to='/'>Tixie</Link>
-        </div>
-        <ul>
-            <li>
-                <Link to='/login'>
-                    <FaSignInAlt />
-                    <span>Login</span>
-                </Link>
-            </li>
-            <li>
-                <Link to='/register'>
-                    <FaUser />
-                    <span>Register</span>
-                </Link>
-            </li>
-            <li>
-                <Link to='/logout'>
-                    <FaSignOutAlt />
-                    <span>Logout</span>
-                </Link>
-            </li>
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const { user } = useSelector((state) => state.auth)
+
+    const onLogout = () => {
+        dispatch(logout())
+        dispatch(reset())
+        navigate('/')
+    }
+
+    return (
+        <header className='header'>
+            <div className='logo'>
+                <Link to='/'>Tixie</Link>
+            </div>
+            <ul>
+                {user ? (
+                    <li>
+                        <button className='btn' onClick={onLogout}>
+                            <FaSignOutAlt />
+                            <span>Logout</span>
+                        </button>
+                    </li>
+
+                ) : (
+                    <>
+                        <li>
+                            <Link to='/login'>
+                                <FaSignInAlt />
+                                <span>Login</span>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to='/register'>
+                                <FaUser />
+                                <span>Register</span>
+                            </Link>
+                        </li>
+            </>)}
         </ul>
     </header>
   )

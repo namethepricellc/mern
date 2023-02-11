@@ -8,7 +8,7 @@ function StrainItem({ strain }) {
     <div className='strain'>
       <div>{new Date(strain.createdAt).toLocaleDateString('en-US')}</div>
       <h2>{strain.text}</h2>
-      <button onClick={() => dispatch(deleteStrain(strain.id))}>Delete</button>
+      <button onClick={() => dispatch(deleteStrain(strain._id))}>Delete</button>
     </div>
   )
 }

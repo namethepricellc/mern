@@ -47,24 +47,7 @@ export const getStrains = createAsyncThunk(
   }
 )
 
-/* Delete a strain
-
-export const deleteStrain = createAsyncThunk('strains/delete', async (id, thunkAPI) => {
-  try {
-    const token = thunkAPI.getState().auth.user.token
-    return await strainService.deleteStrain(id, token)
-  } catch (error) {
-    const message =
-      (error.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString()
-    return thunkAPI.rejectWithValue(message)
-    }
-})
-
-*/
-
-// Delete User Strain
+// Delete user strain
 export const deleteStrain = createAsyncThunk(
   'strains/delete',
   async (id, thunkAPI) => {
@@ -134,6 +117,62 @@ export const strainSlice = createSlice({
       })
   },
 })
+
+/*
+
+export const strainSlice = createSlice({
+  name: 'strain',
+  initialState,
+  reducers: {
+    reset: (state) => initialState,
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(createStrain.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(createStrain.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.strains.push(action.payload)
+      })
+      .addCase(createStrain.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
+      .addCase(getStrains.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getStrains.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.strains = action.payload
+      })
+      .addCase(getStrains.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
+      .addCase(deleteStrain.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(deleteStrain.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.strains = state.strains.filter(
+          (strain) => strain._id !== action.payload.id
+        )
+      })
+      .addCase(deleteStrain.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
+  },
+})
+
+*/
 
 export const { reset } = strainSlice.actions
 export default strainSlice.reducer

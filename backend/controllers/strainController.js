@@ -46,7 +46,7 @@ const updateStrain = asyncHandler(async (req, res) => {
   }
 
   // Check if user is authorized to update strain
-  if (strain.user.toString() !== req.user.id.toString()) {
+  if (strain.user.toString() !== req.user.id) {
     res.status(401)
     throw new Error('Not authorized to update this strain')
   }
@@ -73,12 +73,12 @@ const deleteStrain = asyncHandler(async (req, res) => {
 
   // Check if user exists
   if (!req.user) {
-    res.status(400)
+    res.status(401)
     throw new Error('User not found')
   }
 
   // Check if user is authorized to update strain
-  if (strain.user.toString() !== req.user.id.toString()) {
+  if (strain.user.toString() !== req.user.id) {
     res.status(401)
     throw new Error('Not authorized to update this strain')
   }
